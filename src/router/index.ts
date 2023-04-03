@@ -5,16 +5,23 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    redirect:'/login'
   },
+  //  登录注册
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/login',
+    name: 'login',
+    //按需加载
+    component: () => import('../views/LoginRegister.vue')
+  },
+
+  //  404
+  {
+    path: '/:catchAll(.*)',
+    name: '404',
+    //按需加载
+    component: () => import('../views/404.vue')
+  },
 ]
 
 const router = createRouter({
