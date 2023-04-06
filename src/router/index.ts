@@ -14,6 +14,13 @@ const routes: Array<RouteRecordRaw> = [
     //按需加载
     component: () => import('../views/LoginRegister.vue')
   },
+  //  主页
+  {
+    path: '/home',
+    name: 'home',
+    //按需加载
+    component: () => import('../views/Home.vue')
+  },
 
   //  404
   {

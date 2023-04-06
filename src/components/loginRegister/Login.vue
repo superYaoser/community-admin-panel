@@ -5,7 +5,7 @@
       :rules='rules'
       label-width="100px" class="loginForm sign-in-form">
     <div class="title">
-      <h1>彗星后台管理系统</h1>
+      <h1>Admin登录</h1>
     </div>
 
     <el-form-item label="邮箱" prop="email" style="margin-top: 20px">

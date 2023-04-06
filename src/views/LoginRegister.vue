@@ -14,8 +14,8 @@
 
       <div class="panel left-panel">
         <div class="content">
-          <h3>学习是为了有更多的选择，让生活变的更美好！</h3>
-          <p>何以解忧，唯有米修</p>
+          <h3>彗星后台管理系统</h3>
+          <p>一切为了工作效率</p>
           <button @click="signUpMode=!signUpMode" class="btn transparent">注册</button>
         </div>
         <img src="../assets/static/images/log.svg" class="image" alt=""/>
@@ -23,8 +23,8 @@
 
       <div class="panel right-panel">
         <div class="content">
-          <h3>以人为镜，可明得失，以代码为镜，可通逻辑!</h3>
-          <p>学习编程，让你的生活更有趣</p>
+          <h3>彗星后台管理系统管理员注册</h3>
+          <p>数据管理，更进一步</p>
           <button @click="signUpMode=!signUpMode" class="btn transparent">登录</button>
         </div>
         <img src="../assets/static/images/register.svg" class="image" alt=""/>
@@ -423,30 +423,4 @@ form.sign-up-form {
 .submit-btn {
   width: 100%;
 }
-
-/*!* form *!*/
-/*.loginForm {*/
-/*  margin-top: 20px;*/
-/*  background-color: #fff;*/
-/*  padding: 20px 40px 20px 20px;*/
-/*  border-radius: 5px;*/
-/*  box-shadow: 0px 5px 10px #cccc;*/
-/*}*/
-
-/*.submit-btn {*/
-/*  width: 100%;*/
-/*}*/
-
-/*.tiparea {*/
-/*  text-align: right;*/
-/*  font-size: 12px;*/
-/*  color: #333;*/
-/*}*/
-
-/*.tiparea p button {*/
-/*  color: #409eff;*/
-/*  background-color: #fff;*/
-/*  border: inherit;*/
-/*  cursor: pointer;*/
-/*}*/
 </style>

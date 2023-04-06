@@ -32,8 +32,8 @@ const rules = ref<IRules>({
             message: '密码不能为空'
         },
         {
-            min: 6,
-            max: 30,
+            min: 8,
+            max: 16,
             message: "密码长度应该在8~16之间"
         }
     ],
