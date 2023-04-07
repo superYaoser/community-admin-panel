@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div id="Side">
     <div class="head">
       <div class="head__text">
         <span>Hello! User</span>
@@ -10,7 +10,7 @@
         <el-col>
           <el-menu
               active-text-color="#ffd04b"
-              background-color="#545c64"
+              background-color="rgba(34, 40, 50, 0.80)"
               class="el-menu-vertical-demo"
               default-active="1"
               text-color="#fff"
@@ -126,10 +126,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.container {
+#Side {
+  z-index: 999;
   width: 220px;
-  height: 100vh;
-  background: #545c64;
+  height: 100%;
+  background: rgba(34, 40, 50, 0.80);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -146,7 +147,6 @@ export default {
   justify-content: center;
   padding: 10px 0;
   border-bottom: 1px white solid;
-  background: rgba(127, 138, 149, 0.5);
 
   &__text {
     font-size: 20px;
