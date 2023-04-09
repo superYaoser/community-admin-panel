@@ -21,6 +21,13 @@ const routes: Array<RouteRecordRaw> = [
     //按需加载
     component: () => import('../views/Home.vue')
   },
+  //  全部文章
+  {
+    path: '/article/all',
+    name: 'articleAll',
+    //按需加载
+    component: () => import('../views/articles/All.vue')
+  },
 
   //  404
   {

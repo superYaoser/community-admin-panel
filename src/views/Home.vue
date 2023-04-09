@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <Side></Side>
-    <Header></Header>
+    <Side :active="'1'"></Side>
+    <Header :title="'主页'"></Header>
     <MainContainer>
       <div class="content">
         <p style="width:300px;font-size:30px;color:#929292;margin: 20px auto;">主页暂时没有制作</p>
