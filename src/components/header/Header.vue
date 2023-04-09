@@ -1,7 +1,7 @@
 <template>
   <div id="header">
     <div class="left" style="padding-left: 30px;  margin-left: 220px;">
-      <span style="font-size: 20px">文章管理</span>
+      <span style="font-size: 20px">{{ title }}</span>
     </div>
     <div class="right">
       <div>
@@ -44,6 +44,7 @@
 <script lang="ts">
 export default {
   name: "Header",
+  props:['title'],
   setup() {
     const handleCommand = (command: string | number | object) => {
       console.log(`click on item ${command}`)

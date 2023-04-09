@@ -12,7 +12,7 @@
               active-text-color="#ffd04b"
               background-color="rgba(34, 40, 50, 0.80)"
               class="el-menu-vertical-demo"
-              default-active="1"
+              :default-active="active"
               text-color="#fff"
               @open="handleOpen"
               @close="handleClose"
@@ -110,6 +110,7 @@
 
 <script lang="ts">
 export default {
+  props:['active'],
   name: "Side",
   setup() {
     const handleOpen = (key: string, keyPath: string[]) => {
