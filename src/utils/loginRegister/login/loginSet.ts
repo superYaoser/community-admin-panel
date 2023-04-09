@@ -1,8 +1,10 @@
 /*
     登录的配置文件 分离
  */
-import { ref} from 'vue'
+import {ref} from 'vue'
 import type {FormInstance} from 'element-plus'
+import {adminLogin} from "@/api/admin";
+
 
 //用户接口
 interface IUser {
@@ -31,11 +33,11 @@ const rules = ref<IRules>({
             trigger: 'blur',
             message: '密码不能为空'
         },
-        {
-            min: 8,
-            max: 16,
-            message: "密码长度应该在8~16之间"
-        }
+        // {
+        //     min: 8,
+        //     max: 16,
+        //     message: "密码长度应该在8~16之间"
+        // }
     ],
 })
 
@@ -44,17 +46,25 @@ const loginUser = ref<IUser>({
     password: '',
 })
 //登录 eplus 自带的校验方法
-const submitLoginForm = (formEl: FormInstance | undefined) => {
+const submitLoginForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
-    formEl.validate((valid: any) => {
+    await formEl.validate(async (valid: any) => {
         if (valid) {
-            alert("登录成功")
+            try {
+                const result = await adminLogin(loginUser.value.email, loginUser.value.password)
+                if (result.status == 200) {
+                    localStorage.setItem('token', result.data.token);
+                    window.location.href = "/home";
+                }
+            } catch (error) {
+                alert("用户名或者密码错误")
+            }
         } else {
             console.log('error submit!')
             return false
         }
     })
 }
-export{
-    ruleFormRef,rules,loginUser,submitLoginForm
+export {
+    ruleFormRef, rules, loginUser, submitLoginForm
 }

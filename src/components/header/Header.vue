@@ -42,9 +42,12 @@
 </template>
 
 <script lang="ts">
+import {defineComponent, onMounted} from "vue";
+import {adminLogin} from '@/api/admin'
+
 export default {
   name: "Header",
-  props:['title'],
+  props: ['title'],
   setup() {
     const handleCommand = (command: string | number | object) => {
       console.log(`click on item ${command}`)
