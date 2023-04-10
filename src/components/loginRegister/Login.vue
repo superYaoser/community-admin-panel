@@ -29,15 +29,6 @@
 
 <script setup lang="ts">
 import {ruleFormRef, rules, loginUser, submitLoginForm} from "@/utils/loginRegister/login/loginSet";
-import {onMounted} from "vue";
-import {adminLogin} from "@/api/admin";
-onMounted(()=>{
-  adminLogin().then(res=>{
-    if (res.status==200){
-      window.location.href = "/home";
-    }
-  })
-})
 </script>
 
 <style scoped lang="less">

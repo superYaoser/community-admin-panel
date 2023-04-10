@@ -12,7 +12,7 @@
       </div>
       <el-dropdown @command="handleCommand">
     <span class="el-dropdown-link">
-      测试用户<el-icon class="el-icon--right"><arrow-down/></el-icon>
+      {{ user.u_name }}<el-icon class="el-icon--right"><arrow-down/></el-icon>
     </span>
         <template #dropdown>
           <el-dropdown-menu>
@@ -42,18 +42,44 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted} from "vue";
+import {computed, defineComponent, onMounted} from "vue";
 import {adminLogin} from '@/api/admin'
+import {useStore} from 'vuex';
+import {IUser} from '@/utils/vuex/user';
+
 
 export default {
   name: "Header",
   props: ['title'],
   setup() {
+    //使用store
+    const store = useStore();
+
+// 通过 Vue 3 中的 onMounted 钩子，在组件挂载后执行登录操作
+    onMounted(() => {
+// 调用 adminLogin 方法进行登录
+      adminLogin().then(res => {
+        if (res.status == 200) {
+// 如果登录成功，则获取当前用户
+          const currentUser = res.data.data;
+// 利用 Vuex 的 dispatch 方法将用户信息存储到全局状态中
+          store.dispatch('addUser', currentUser);
+        }
+      }).catch(err => {
+// 登录失败则不做任何处理
+      })
+    });
+
+// 使用 Vue 3 中的 computed 函数，通过 store 的 getter 获取全局状态中的用户信息
+    const user = computed<IUser>(() => {
+      return store.getters.getUser;
+    });
+
     const handleCommand = (command: string | number | object) => {
       console.log(`click on item ${command}`)
     }
     return {
-      handleCommand
+      handleCommand, user
     }
   }
 }

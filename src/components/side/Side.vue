@@ -2,7 +2,7 @@
   <div id="Side">
     <div class="head">
       <div class="head__text">
-        <span>Hello! User</span>
+        <span>Hello! Admin</span>
       </div>
     </div>
     <div class="nav">
@@ -18,7 +18,7 @@
               @close="handleClose"
           >
 
-            <el-menu-item index="1">
+            <el-menu-item index="1" @click="router.push({ path: '/home' })">
               <el-icon>
                 <HomeFilled/>
               </el-icon>
@@ -32,7 +32,7 @@
                 </el-icon>
                 <span>文章</span>
               </template>
-              <el-menu-item index="2-1">
+              <el-menu-item index="2-1"  @click="router.push({ path: '/article/all' })">
                 <el-icon>
                   <Document/>
                 </el-icon>
@@ -109,10 +109,14 @@
 </template>
 
 <script lang="ts">
+import router  from '@/router';
 export default {
   props:['active'],
   name: "Side",
   setup() {
+
+
+
     const handleOpen = (key: string, keyPath: string[]) => {
       console.log(key, keyPath)
     }
@@ -120,7 +124,7 @@ export default {
       console.log(key, keyPath)
     }
     return {
-      handleOpen, handleClose
+      handleOpen, handleClose,router
     }
   }
 }

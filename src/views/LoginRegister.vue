@@ -39,6 +39,9 @@
 import {ref} from 'vue'
 import Login from '@/components/loginRegister/Login.vue';
 import Register from '@/components/loginRegister/Register.vue';
+import {onMounted} from "vue";
+import {adminLogin} from "@/api/admin";
+import router  from '@/router';
 
 export default {
   name: "LoginRegister",
@@ -46,7 +49,18 @@ export default {
     Login,
     Register,
   },
+
   setup() {
+
+    onMounted(() => {
+      adminLogin().then(res => {
+        if (res.status == 200) {
+          router.push({ path: '/home' });
+        }
+      }).catch(err => {
+      })
+    });
+
     //用于切换
     const signUpMode = ref<Boolean>(false);
     return {

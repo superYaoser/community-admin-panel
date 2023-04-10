@@ -4,7 +4,10 @@
 import {ref} from 'vue'
 import type {FormInstance} from 'element-plus'
 import {adminLogin} from "@/api/admin";
+import {useStore} from 'vuex';
+import router from '@/router';
 
+const store = useStore();
 
 //用户接口
 interface IUser {
@@ -65,6 +68,7 @@ const submitLoginForm = async (formEl: FormInstance | undefined) => {
         }
     })
 }
+
 export {
     ruleFormRef, rules, loginUser, submitLoginForm
 }
