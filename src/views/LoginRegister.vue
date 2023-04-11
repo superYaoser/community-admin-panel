@@ -55,7 +55,7 @@ export default {
     onMounted(() => {
       adminLogin().then(res => {
         if (res.status == 200) {
-          router.push({ path: '/home' });
+          router.push({ path: '/admin/home' });
         }
       }).catch(err => {
       })

@@ -13,21 +13,29 @@ const routes: Array<RouteRecordRaw> = [
         //按需加载
         component: () => import('../views/LoginRegister.vue')
     },
-    //  主页
+    //admin操作面板
     {
-        path: '/home',
-        name: 'home',
-        //按需加载
-        component: () => import('../views/Home.vue')
+        path: '/admin',
+        name:'admin',
+        component: () => import('../views/Admin.vue'),
+        children: [
+            //主页
+            {
+                path: 'home',
+                component: () => import('../views/Home.vue'),
+                meta: {
+                    parentView: 'childView'
+                }
+            },
+            {
+                path: 'article/all',
+                component: () => import('../views/articles/All.vue'),
+                meta: {
+                    parentView: 'childView'
+                }
+            },
+        ]
     },
-    //  全部文章
-    {
-        path: '/article/all',
-        name: 'articleAll',
-        //按需加载
-        component: () => import('../views/articles/All.vue')
-    },
-
     //  404
     {
         path: '/:catchAll(.*)',

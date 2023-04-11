@@ -4,10 +4,8 @@
 import {ref} from 'vue'
 import type {FormInstance} from 'element-plus'
 import {adminLogin} from "@/api/admin";
-import {useStore} from 'vuex';
 import router from '@/router';
 
-const store = useStore();
 
 //用户接口
 interface IUser {
@@ -57,7 +55,7 @@ const submitLoginForm = async (formEl: FormInstance | undefined) => {
                 const result = await adminLogin(loginUser.value.email, loginUser.value.password)
                 if (result.status == 200) {
                     localStorage.setItem('token', result.data.token);
-                    window.location.href = "/home";
+                    await router.push({path: '/admin/home'});
                 }
             } catch (error) {
                 alert("用户名或者密码错误")

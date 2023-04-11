@@ -18,7 +18,7 @@
               @close="handleClose"
           >
 
-            <el-menu-item index="1" @click="router.push({ path: '/home' })">
+            <el-menu-item index="1" @click="currentRouterAndTitle('/admin/home','主页')">
               <el-icon>
                 <HomeFilled/>
               </el-icon>
@@ -32,7 +32,7 @@
                 </el-icon>
                 <span>文章</span>
               </template>
-              <el-menu-item index="2-1"  @click="router.push({ path: '/article/all' })">
+              <el-menu-item index="2-1" @click="currentRouterAndTitle('/admin/article/all','全部文章')">
                 <el-icon>
                   <Document/>
                 </el-icon>
@@ -109,14 +109,22 @@
 </template>
 
 <script lang="ts">
-import router  from '@/router';
+import router from '@/router';
+import {defineComponent, EmitsOptions, SetupContext} from 'vue'
+
 export default {
-  props:['active'],
+  props: ['active'],
   name: "Side",
-  setup() {
+  emits: ['currentRouter-event'],
+  setup(props: any, { emit }: SetupContext<EmitsOptions>) {
+    //向父组件传值路由
+    const currentRouterAndTitle = (router:string,title:string) => {
+      let data={router,title}
+      emit('currentRouter-event', data)
+    }
 
 
-
+    //e p 自带方法
     const handleOpen = (key: string, keyPath: string[]) => {
       console.log(key, keyPath)
     }
@@ -124,7 +132,7 @@ export default {
       console.log(key, keyPath)
     }
     return {
-      handleOpen, handleClose,router
+      handleOpen, handleClose, currentRouterAndTitle
     }
   }
 }
