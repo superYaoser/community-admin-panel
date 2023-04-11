@@ -15,9 +15,15 @@
       </div>
       <div class="content__form" style="margin-top: 20px;width: 100%;">
         <el-table :data="tableData" style="width: 90%;border-radius: 6px;margin: 0 auto">
-          <el-table-column label="Date" prop="date"/>
-          <el-table-column label="Name" prop="name"/>
-          <el-table-column label="操作" align="center">
+          <el-table-column label="标题" prop="article_title"/>
+          <el-table-column label="作者id" prop="article_user_id"/>
+          <el-table-column label="类别id" prop="article_class_id"/>
+          <el-table-column label="创建时间" prop="article_create_time" width="180px"/>
+          <el-table-column label="审核状态" prop="article_across"/>
+          <el-table-column label="逻辑删除" prop="article_logic_del"/>
+          <el-table-column label="物理删除" prop="article_real_del"/>
+
+          <el-table-column label="操作" align="center" width="150px">
             <template #default="scope">
               <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
               >Edit
@@ -36,9 +42,10 @@
       </div>
       <div class="content__page" style="width: 100%;margin-top: 20px">
         <el-pagination background layout="prev, pager, next" style="width: 100%; justify-content: center;"
-                       :total="100"
-                       @prev-click=""
-                       @next-click=""/>
+                       :total="totalSize"
+                       @prev-click="usePage(++sizeNum)"
+                       @next-click="usePage(--sizeNum)"
+                       @current-change="usePage"/>
       </div>
     </div>
   </div>
@@ -49,7 +56,9 @@ import Side from '@/components/side/Side.vue';
 import Header from '@/components/header/Header.vue';
 import MainContainer from '@/components/MainContainer/MainContainer.vue';
 import {Search} from '@element-plus/icons-vue'
-import {computed, ref} from 'vue'
+import {computed, onMounted, ref} from 'vue'
+import {getPage}from '@/api/articles'
+import {Article}from'@/utils/views/article/article'
 
 export default {
   name: "All",
@@ -59,74 +68,50 @@ export default {
     Header,
   },
   setup() {
+    onMounted(()=>{
+      usePage(sizeNum.value)
+    })
 
-    interface User {
-      date: string
-      name: string
-      address: string
+    //用作分页总大小
+    let totalSize=ref<number>();
+    //用作当前页码数 默认1
+    let sizeNum = ref<number>(1)
+
+    //发起获取分页请求
+    function usePage(page_number:number){
+      getPage(page_number,9).then(res=>{
+        if (res.status==200){
+          tableData.value =filterArray(res.data.data)
+          totalSize.value = res.data.allSize
+        }
+      })
     }
 
-    const handleEdit = (index: number, row: User) => {
+    /*
+    * 格式化数组*/
+    function filterArray(arr: Article[]): Article[] {
+      const formattedArr = arr.map((item) => {
+        if (item.article_create_time.endsWith('Z')) {
+          const date = new Date(item.article_create_time);
+          item.article_create_time = date.toISOString().replace('T', '-').replace('.000Z', '');
+        }
+        return item;
+      });
+      return formattedArr;
+    }
+
+    //点击编辑
+    const handleEdit = (index: number, row: Article) => {
       console.log(index, row)
     }
-    const handleDelete = (index: number, row: User) => {
+    //点击删除
+    const handleDelete = (index: number, row: Article) => {
       console.log(index, row)
     }
 
-    const tableData: User[] = [
-      {
-        date: '2016-05-03',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-02',
-        name: 'John',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-04',
-        name: 'Morgan',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-01',
-        name: 'Jessy',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-03',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-02',
-        name: 'John',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-04',
-        name: 'Morgan',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-01',
-        name: 'Jessy',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-03',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-02',
-        name: 'John',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-    ]
+    let tableData= ref<Article[]>([])
     return {
-      handleEdit, handleDelete, tableData, Search
+      handleEdit, handleDelete, tableData, Search,totalSize,usePage,sizeNum
     }
   }
 }
