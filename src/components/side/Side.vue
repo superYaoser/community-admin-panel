@@ -37,7 +37,7 @@
                   <Document/>
                 </el-icon>
                 <span>全部文章</span></el-menu-item>
-              <el-menu-item index="2-2">
+              <el-menu-item index="2-2" @click="currentRouterAndTitle('/admin/article/write','写文章')">
                 <el-icon>
                   <EditPen/>
                 </el-icon>

@@ -23,16 +23,16 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'home',
                 component: () => import('../views/Home.vue'),
-                meta: {
-                    parentView: 'childView'
-                }
             },
+            //全部文章
             {
                 path: 'article/all',
                 component: () => import('../views/articles/All.vue'),
-                meta: {
-                    parentView: 'childView'
-                }
+            },
+            //写文章
+            {
+                path: 'article/write',
+                component: () => import('../views/articles/Write.vue'),
             },
         ]
     },
