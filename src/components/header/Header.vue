@@ -46,6 +46,7 @@ import {computed, defineComponent, onMounted} from "vue";
 import {adminLogin} from '@/api/admin'
 import {useStore} from 'vuex';
 import {IUser} from '@/utils/vuex/user';
+import {useRouter} from 'vue-router'
 
 
 export default {
@@ -54,6 +55,8 @@ export default {
   setup() {
     //使用store
     const store = useStore();
+    // 导入路由
+    const router = useRouter()
 
 // 通过 Vue 3 中的 onMounted 钩子，在组件挂载后执行登录操作
     onMounted(() => {
@@ -66,7 +69,7 @@ export default {
           store.dispatch('addUser', currentUser);
         }
       }).catch(err => {
-// 登录失败则不做任何处理
+        router.push('/login') // 跳转到指定路由
       })
     });
 

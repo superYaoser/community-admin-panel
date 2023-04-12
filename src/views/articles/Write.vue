@@ -1,12 +1,18 @@
 <template>
   <div id="Write">
     <div class="write__title">
-      <input type="text" placeholder="输入标题">
+      <el-input
+          v-model="inputTitle"
+          class="w-50 m-2"
+          size="default"
+          placeholder="请输入文章标题"
+          style="margin: 0;"
+      />
     </div>
     <div class="write__edit">
-      <div style="border: 1px solid #ccc;height: 100%;display: flex;flex-direction: column;">
+      <div class="edit__container">
         <Toolbar
-            style="border-bottom: 1px solid #ccc"
+            style="border-bottom: 1px solid #ccc;"
             :editor="editorRef"
             :defaultConfig="toolbarConfig"
             :mode="mode"
@@ -21,7 +27,7 @@
       </div>
     </div>
     <div class="write__upload">
-      <button @click="uploadArticle">上传文章</button>
+      <el-button type="primary" round @click="uploadArticle" style="margin-left: 20px">上传文章</el-button>
     </div>
   </div>
 </template>
@@ -33,14 +39,18 @@ import {onBeforeUnmount, ref, shallowRef, onMounted} from 'vue'
 import {Editor, Toolbar} from '@wangeditor/editor-for-vue'
 import {setArticle} from '@/api/articles'
 import {IEditorConfig} from '@wangeditor/editor'
+import { ElMessage } from 'element-plus'
+
 export default {
   components: {Editor, Toolbar},
   setup() {
     // 编辑器实例，必须用 shallowRef
     const editorRef = shallowRef()
+    //用于接收文章标题
+    let inputTitle = ref()
 
     // 内容 HTML
-    const valueHtml = ref('<p>hello</p>')
+    const valueHtml = ref()
 
     // 初始化 MENU_CONF 属性
     const editorConfig = {                       // JS 语法
@@ -56,7 +66,7 @@ export default {
         "authorization": localStorage.getItem('token')
       },
 
-      customInsert: function (result,insertFn ) {
+      customInsert: function (result, insertFn) {
         const url = result.imageUrl
         insertFn(url)
       },
@@ -72,8 +82,7 @@ export default {
 
     })
 
-    const toolbarConfig = {
-    }
+    const toolbarConfig = {}
     //排除项
     toolbarConfig.excludeKeys = [
       'emotion',
@@ -95,15 +104,16 @@ export default {
      *
      */
     const uploadArticle = () => {
-      let title = document.querySelector('.write__title input').value.toString();
+      let title = inputTitle.value.toString();
       const content = valueHtml.value
       const category = 1
       setArticle(title, content, category).then(res => {
-        console.log(res)
+        ElMessage({
+          message: '文章上传成功',
+          type: 'success',
+        })
       }).catch(err => {
-        console.log("文章上传失败")
-        console.log(err)
-        alert("文章上传失败"+err)
+        ElMessage.error('文章上传失败，错误信息：“'+err.response.data.message+"”")
       })
     }
 
@@ -114,7 +124,8 @@ export default {
       toolbarConfig,
       editorConfig,
       handleCreated,
-      uploadArticle
+      uploadArticle,
+      inputTitle
     };
   }
 }
@@ -139,5 +150,12 @@ export default {
   &__title, &__edit, &__upload {
     width: 90%;
   }
+}
+
+.edit__container {
+  border: 1px solid #ccc;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 </style>

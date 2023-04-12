@@ -14,6 +14,7 @@ interface Article {
     article_sort: number;
     article_title: string;
     article_user_id: string;
+    article_user_name: string;
     article_watch_num: number;
 }
 export {
