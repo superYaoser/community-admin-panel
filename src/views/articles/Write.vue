@@ -32,7 +32,7 @@ import '@wangeditor/editor/dist/css/style.css' // 引入 css
 import {onBeforeUnmount, ref, shallowRef, onMounted} from 'vue'
 import {Editor, Toolbar} from '@wangeditor/editor-for-vue'
 import {setArticle} from '@/api/articles'
-
+import {IEditorConfig} from '@wangeditor/editor'
 export default {
   components: {Editor, Toolbar},
   setup() {
@@ -42,12 +42,43 @@ export default {
     // 内容 HTML
     const valueHtml = ref('<p>hello</p>')
 
+    // 初始化 MENU_CONF 属性
+    const editorConfig = {                       // JS 语法
+      MENU_CONF: {},
+      placeholder: '请输入内容...'
+      // 其他属性...
+    }
+    // 修改 uploadImage 菜单配置
+    editorConfig.MENU_CONF['uploadImage'] = {
+      server: 'http://localhost:3000/api/upload/image',
+      fieldName: 'image',
+      headers: {
+        "authorization": localStorage.getItem('token')
+      },
+
+      customInsert: function (result,insertFn ) {
+        const url = result.imageUrl
+        insertFn(url)
+      },
+      maxFileSize: 10 * 1024 * 1024, // 10M
+      timeout: 30 * 1000, // 30 秒
+      // 继续写其他配置...
+
+      //【注意】不需要修改的不用写，wangEditor 会去 merge 当前其他配置
+    }
+
+
     onMounted(() => {
 
     })
 
-    const toolbarConfig = {}
-    const editorConfig = {placeholder: '请输入内容...'}
+    const toolbarConfig = {
+    }
+    //排除项
+    toolbarConfig.excludeKeys = [
+      'emotion',
+      'group-video'
+    ]
 
     // 组件销毁时，也及时销毁编辑器
     onBeforeUnmount(() => {
@@ -67,11 +98,12 @@ export default {
       let title = document.querySelector('.write__title input').value.toString();
       const content = valueHtml.value
       const category = 1
-      setArticle(title,content,category).then(res=>{
+      setArticle(title, content, category).then(res => {
         console.log(res)
-      }).catch(err=>{
+      }).catch(err => {
         console.log("文章上传失败")
         console.log(err)
+        alert("文章上传失败"+err)
       })
     }
 
