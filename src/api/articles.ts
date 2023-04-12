@@ -13,7 +13,7 @@ function getPage(page_number: number, page_size: number) {
     })
 }
 // 上传文章
-function setArticle(title: string, content: any,category?:number) {
+function setArticle(title: any, content: any,category?:number) {
     return request({
         url: '/article',
         method: 'post',
