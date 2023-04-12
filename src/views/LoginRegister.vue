@@ -55,6 +55,7 @@ export default {
     onMounted(() => {
       adminLogin().then(res => {
         if (res.status == 200) {
+          localStorage.setItem('token', res.data.token);
           router.push({ path: '/admin/home' });
         }
       }).catch(err => {

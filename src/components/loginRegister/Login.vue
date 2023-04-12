@@ -28,7 +28,69 @@
 </template>
 
 <script setup lang="ts">
-import {ruleFormRef, rules, loginUser, submitLoginForm} from "@/utils/loginRegister/login/loginSet";
+import {ref} from 'vue'
+import type {FormInstance} from 'element-plus'
+import {adminLogin} from "@/api/admin";
+import router from '@/router';
+//用户接口
+interface IUser {
+  email: string;
+  password: string;
+}
+
+//规则接口
+interface IRules {
+  email: { type: string, message: string, required: boolean, trigger: string }[],
+  password: ({ required: boolean, trigger: string, message: string, min?: undefined, max?: undefined, massage?: undefined } | {})[]
+}
+
+const ruleFormRef = ref<FormInstance>()
+
+const rules = ref<IRules>({
+  email: [{
+    type: 'email',
+    message: '邮箱格式有误',
+    required: true,
+    trigger: 'blur',
+  }],
+  password: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: '密码不能为空'
+    },
+    // {
+    //     min: 8,
+    //     max: 16,
+    //     message: "密码长度应该在8~16之间"
+    // }
+  ],
+})
+
+const loginUser = ref<IUser>({
+  email: '',
+  password: '',
+})
+//登录 eplus 自带的校验方法
+const submitLoginForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate(async (valid: any) => {
+    if (valid) {
+      try {
+        const result = await adminLogin(loginUser.value.email, loginUser.value.password)
+        if (result.status == 200) {
+          localStorage.setItem('token', result.data.token);
+          await router.push({path: '/admin/home'});
+        }
+      } catch (error) {
+        alert("用户名或者密码错误")
+      }
+    } else {
+      console.log('error submit!')
+      return false
+    }
+  })
+}
 </script>
 
 <style scoped lang="less">
