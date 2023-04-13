@@ -1,5 +1,5 @@
 import { createStore} from 'vuex'
-import {IUser} from '@/utils/vuex/user'
+import {IUser} from '@/utils/Interface/vuex/user'
 interface IState {
   user: IUser;
 }

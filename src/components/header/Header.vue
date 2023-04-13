@@ -45,7 +45,7 @@
 import {computed, defineComponent, onMounted} from "vue";
 import {adminLogin} from '@/api/admin'
 import {useStore} from 'vuex';
-import {IUser} from '@/utils/vuex/user';
+import {IUser} from '@/utils/Interface/vuex/user';
 import {useRouter} from 'vue-router'
 
 

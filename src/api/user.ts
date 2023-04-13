@@ -9,6 +9,17 @@ function getAllUser() {
     })
 }
 
+/**
+ * 获取用户信息
+ * @param id 用户id
+ */
+function getAUserById(id:string) {
+    return request({
+        url: '/user/'+id,
+        method: 'GET',
+    })
+}
+
 export {
-    getAllUser,
+    getAllUser,getAUserById
 }
