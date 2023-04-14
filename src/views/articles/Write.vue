@@ -40,6 +40,7 @@ import {Editor, Toolbar} from '@wangeditor/editor-for-vue'
 import {setArticle} from '@/api/articles'
 import {IEditorConfig} from '@wangeditor/editor'
 import { ElMessage } from 'element-plus'
+import {G} from '@/utils/set'
 
 export default {
   components: {Editor, Toolbar},
@@ -60,7 +61,7 @@ export default {
     }
     // 修改 uploadImage 菜单配置
     editorConfig.MENU_CONF['uploadImage'] = {
-      server: 'http://localhost:3000/api/upload/image',
+      server: G.baseURL+'/upload/image',
       fieldName: 'image',
       headers: {
         "authorization": localStorage.getItem('token')

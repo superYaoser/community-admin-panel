@@ -1,9 +1,10 @@
 // 1引入axios
 import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
+import {G} from '@/utils/set'
 
 // 2 创建axios实例
 const instance = axios.create({
-    baseURL:'http://localhost:3000/api',
+    baseURL:G.baseURL,
     headers: {
         "authorization": localStorage.getItem('token')
     },
